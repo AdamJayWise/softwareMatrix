@@ -25,20 +25,18 @@ var app = {
 };
 
 function createTable(activeCameras, activeSoftware){
-    var tableDiv = d3.select("#resultTableDiv");
-    
-    // remove old results
-    tableDiv.selectAll("table").remove()
+
 
     // append a new table
-    var table = tableDiv
-                .append("table")
-                .classed("resultTable", true);
+    var table = d3.select("#resultTable")
+                .classed("displayTable", true);
+
+    table.selectAll("tr").remove();
 
     var headRow = table.append("tr")
     headRow.append("td").text("Camera");
     for ( var i in app.activeSoftware){
-
+        headRow.append("td").classed("sofwareLabelTD", true).text(app.activeSoftware[i]);
     }
 
     for( var i in app.activeCameras){
@@ -59,6 +57,94 @@ function createTable(activeCameras, activeSoftware){
     }
 }
 
+// create a software select into #softwareSelectDiv
+function createSoftwareDiv(){
+    var softwareSelect = d3.select("#softwareSelect")
+    softwareSelect
+            .selectAll("option")
+            .data(app.availableSoftware)
+            .enter()
+            .append("option")
+            .text(d=>d)
+            .attr("value",d=>d);
+    softwareSelect.on('change', onChangeSelect);
+}
+
+
+// callback for when select is changed
+function onChangeSelect(){
+    app.activeSoftware = [];
+    selected = d3.select(this) // select the select
+        .selectAll("option:checked")  // select the selected values
+        .each(function() { 
+            app.activeSoftware.push(this.value);
+            }); // for each of those, get its value
+    createTable();
+}
+
+// ok so I'd like to create a thing where I have D3 making a div per family, then you can click to activate / deactive camera
+function createCameraTree(){
+    var camDiv = d3.select("#cameraTreeDiv");
+    Object.keys(cameraTree).forEach(function(camType){
+        var typeDiv  = camDiv
+                        .append("div")
+                        .text(camType + " +")
+                        .on('click', function(){
+                            //typeDiv.text(camType)
+                            // make direct children visible
+                            typeDiv.selectAll(".cameraFamily")
+                                    .each(function(d,i,p){
+                                        console.log(p[i]);
+                                        var t = d3.select(p[i]);
+                                        t.classed("hidden", !t.classed("hidden"))
+                                    })
+                            event.stopPropagation();
+                                    
+                        });
+        
+        Object.keys(cameraTree[camType]).forEach(function(camFam){
+            var famDiv = typeDiv.append("div")
+                            .classed("cameraFamily", true)
+                            .classed("hidden", true)
+                            .text(camFam + " +")
+                            .on('click', function(){
+                                // make direct children visible
+                                famDiv.selectAll(".cameraModel")
+                                    .each(function(d,i,p){
+                                        console.log(p[i]);
+                                        var t = d3.select(p[i]);
+                                        t.classed("hidden", !t.classed("hidden"))
+                                })
+                                event.stopPropagation();
+                            });
+
+            cameraTree[camType][camFam].forEach(function(camModel){
+
+                var modelDiv = famDiv.append("div")
+                    .classed("cameraModel", true)
+                    .classed("hidden", true)
+                    .text(camModel)
+                    .on('click', function(){
+                        if(app.activeCameras.indexOf(camModel) == -1){
+                            app.activeCameras.push(camModel);
+                            d3.select(this).classed("active", true)
+                        }
+                        else {
+                            app.activeCameras.splice(app.activeCameras.indexOf(camModel), 1);
+                            d3.select(this).classed("active", false)
+                        }
+                        event.stopPropagation();
+                        createTable();
+                });
+            });
+        });
+
+
+    })
+}
+
+createSoftwareDiv();
+createCameraTree();
 // info on the available software packages and cameras is in place already in compatibility.js
 
 // add some cameras and software to test

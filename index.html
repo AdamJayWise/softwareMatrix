@@ -1,8 +1,23 @@
 <html>
     <head>
         <style>
+
+            #guiDiv {
+                display : flex;
+                flex-direction: row;
+            }
+
+            #softwareSelect {
+                height : 100%;
+            }
+
             .resultTable {
                 border : 1px solid black;
+            }
+
+            .guiComponent {
+                padding : 10px;
+
             }
 
             .compatible {
@@ -15,19 +30,49 @@
                 min-width : 10px;
             }
 
+            .sofwareLabelTD {
+                padding : 0 6px 0 6px;
+                font-weight : bold;
             }
+
+            #cameraTreeDiv {
+                border : 1px solid black;
+                width : 100px;
+            }
+
+            .cameraFamily {
+                margin : 3 3 3 8px;
+            }
+
+            .cameraModel {
+                margin : 3 3 3 16px;
+            }
+
+            .hidden {
+                display : none;
+            }
+
+            .active {
+                font-weight : bold;
+            }
+            
         </style>
     </head>
 
     <body>
 
         <div id = "guiDiv">
-            <div id = "cameraTreeDiv"></div>
-            <div id = "softwareSelectDiv"></div>
+            <div id = "cameraTreeDiv" class = "guiComponent"></div>
+            <div id = "softwareSelectDiv" >
+                <select name="software" id="softwareSelect" class = "guiComponent" multiple></select>
+            </div>
             <div id = "miscOptionDiv"></div>
+            <div id = "resultTableDiv" >
+                <table id = "resultTable" class = "guiComponent"></table>
+            </div>
         </div>
 
-        <div id = "resultTableDiv"></div>
+
 
     </body>
 
