@@ -37,10 +37,24 @@ function createTable(activeCameras, activeSoftware){
     
     headRow.append("td").classed("cornerTD", true);
     
-    for ( var i in app.activeSoftware){
-        headRow.append("td")
+    for (var q in app.activeSoftware){
+        
+        var thisHeader = headRow.append("td")
+
+        thisHeader
             .classed("softwareLabelTD", true)
-            .html(`<a href = "${softwareInfo[app.activeSoftware[i]]['Link']}" >${app.activeSoftware[i]}</a>`)
+            .html(`<a href = "${softwareInfo[app.activeSoftware[q]]['Link']}" >${app.activeSoftware[q]}</a>`)
+            .on('mouseover', function(){
+                if (activeSoftware.indexOf(d3.select(this).text())!=-1){
+                    var tip = d3.select(this)
+                                .append('div')
+                                .classed("toolTip", true)
+                                .text(softwareInfo[d3.select(this).text()]['Description']);
+                };
+            })
+            .on('mouseleave', function(){
+                d3.selectAll(".toolTip").remove();
+            })
           
     }
 
