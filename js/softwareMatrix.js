@@ -34,9 +34,14 @@ function createTable(activeCameras, activeSoftware){
     table.selectAll("tr").remove();
 
     var headRow = table.append("tr")
-    headRow.append("td").text("Camera");
+    
+    headRow.append("td").classed("cornerTD", true);
+    
     for ( var i in app.activeSoftware){
-        headRow.append("td").classed("sofwareLabelTD", true).text(app.activeSoftware[i]);
+        headRow.append("td")
+            .classed("sofwareLabelTD", true)
+            .html(`<a href = "${softwareInfo[app.activeSoftware[i]]['Link']}" >${app.activeSoftware[i]}</a>`)
+          
     }
 
     for( var i in app.activeCameras){

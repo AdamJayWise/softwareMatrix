@@ -1,6 +1,13 @@
 <html>
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
     <head>
         <style>
+
+            body {
+                font-family : 'Open Sans';
+            }
 
             #guiDiv {
                 display : flex;
@@ -9,24 +16,46 @@
 
             #softwareSelect {
                 height : 100%;
+                min-height : 100px;
+                font-family: 'Open Sans';
             }
 
-            .resultTable {
+            #resultTable {
+                border-collapse : collapse;
+            }
+
+            #resultTable a {
+                color : black;
+                text-decoration : none;
+            }
+
+
+
+            #resultTable th,td {
+
                 border : 1px solid black;
+                text-align : center;
+                white-space: nowrap;
+                padding: 2 5 2 5px;
+            }
+
+            .cornerTD {
+                border : none;
             }
 
             .guiComponent {
                 padding : 10px;
+                margin : 5px;
 
             }
 
             .compatible {
-                background-color: green;
+                background: linear-gradient(45deg, #8effa6, #4ce966);
                 min-width : 10px;
             }
 
             .incompatible {
-                background-color: red;
+                background: linear-gradient(45deg, #ffa08f, #ff463c);
                 min-width : 10px;
             }
 
@@ -37,7 +66,8 @@
 
             #cameraTreeDiv {
                 border : 1px solid black;
-                width : 100px;
+                width : 120px;
+                min-height : 100px;
             }
 
             .cameraFamily {
@@ -56,14 +86,23 @@
                 font-weight : bold;
             }
             
+            .flexColumnContainer {
+                display : flex;
+                flex-direction: column;
+            }
+            
         </style>
     </head>
 
     <body>
 
         <div id = "guiDiv">
-            <div id = "cameraTreeDiv" class = "guiComponent"></div>
-            <div id = "softwareSelectDiv" >
+            <div class = "flexColumnContainer">
+                <div id = cameraTreeLabel>Cameras</div>
+                <div id = "cameraTreeDiv" class = "guiComponent"></div>
+            </div>
+            <div id = "softwareSelectDiv" class = "flexColumnContainer">
+                <div>Software</div>
                 <select name="software" id="softwareSelect" class = "guiComponent" multiple></select>
             </div>
             <div id = "miscOptionDiv"></div>
