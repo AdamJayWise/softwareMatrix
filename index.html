@@ -25,7 +25,7 @@
             }
 
             #resultTable a {
-                color : black;
+                color : white;
                 text-decoration : none;
             }
 
@@ -33,7 +33,7 @@
 
             #resultTable th,td {
 
-                border : 1px solid black;
+                border : 2px solid white;
                 text-align : center;
                 white-space: nowrap;
                 padding: 2 5 2 5px;
@@ -50,24 +50,34 @@
             }
 
             .compatible {
-                background: linear-gradient(45deg, #8effa6, #4ce966);
+                background: #07df36;
                 min-width : 10px;
             }
 
             .incompatible {
-                background: linear-gradient(45deg, #ffa08f, #ff463c);
+                background:  #818181;
                 min-width : 10px;
             }
 
-            .sofwareLabelTD {
-                padding : 0 6px 0 6px;
+            .softwareLabelTD {
                 font-weight : bold;
+                background-color: #1c2674;
+                color : white;
             }
+
+            .cameraLabelTD {
+                font-weight : bold;
+                text-align : right;
+                background-color: #1c2674;
+                color : white;
+            }
+
 
             #cameraTreeDiv {
                 border : 1px solid black;
-                width : 120px;
+                width : 140px;
                 min-height : 100px;
+                
             }
 
             .cameraFamily {
@@ -109,8 +119,14 @@
             <div id = "resultTableDiv" >
                 <table id = "resultTable" class = "guiComponent"></table>
             </div>
+
+            
         </div>
 
+        <div class = "guiComponent">
+            <button id = "showAllButton">Show All</button>
+        </div>
+        
 
 
     </body>

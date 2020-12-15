@@ -39,7 +39,7 @@ function createTable(activeCameras, activeSoftware){
     
     for ( var i in app.activeSoftware){
         headRow.append("td")
-            .classed("sofwareLabelTD", true)
+            .classed("softwareLabelTD", true)
             .html(`<a href = "${softwareInfo[app.activeSoftware[i]]['Link']}" >${app.activeSoftware[i]}</a>`)
           
     }
@@ -47,12 +47,14 @@ function createTable(activeCameras, activeSoftware){
     for( var i in app.activeCameras){
         var cam = app.activeCameras[i];
         var tr = table.append("tr")
-        tr.append("td").text(cam)
+        tr.append("td")
+            .text(cam)
+            .classed("cameraLabelTD", true)
 
         for (var j in app.activeSoftware){
             var sw = app.activeSoftware[j];
             if (compatibilityChart[cam][sw] == "true"){
-                tr.append("td").classed("compatible", true)
+                tr.append("td").classed("compatible", true).html("&#10004;")
             }
             if (compatibilityChart[cam][sw] == "false"){
                 tr.append("td").classed("incompatible", true)
@@ -156,3 +158,11 @@ createCameraTree();
 app.activeSoftware = ["AstroControl", "cellSens Dimension", "WinFluor", "Zen Blue", "PYTHON", "Micro-manager"];
 app.activeCameras = ["Balor  17-12", "iDus 401", "IDus 416", "iDus 420"];
 createTable(app.activeCameras, app.activeSoftware);
+
+// add a callback to the "show all button"
+d3.select("#showAllButton")
+    .on('click', function(){
+        app.activeCameras = app.availableCameras;
+        app.activeSoftware = app.availableSoftware;
+        createTable();
+    })
