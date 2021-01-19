@@ -48,9 +48,9 @@ function createTable(activeCameras, activeSoftware){
             var labelBBox = vertLabelDiv.select('a').node().getBoundingClientRect();
             var headerHeight = parseFloat(headRow.style("height"))
 
-            thisHeader.style("height", labelBBox.height + 10);
+            thisHeader.style("height", labelBBox.height + 15);
             thisHeader.style("max-width", labelBBox.width);
-            vertLabelDiv.style("margin-top", -labelBBox.height/2)
+            //vertLabelDiv.style("margin-top", -labelBBox.height/2)
 
           
     }
@@ -60,7 +60,7 @@ function createTable(activeCameras, activeSoftware){
         var tr = table.append("tr")
         tr.append("td")
             .text(sw)
-            .classed("softwareLabelTd", true)
+            .classed("softwareLabelTD", true)
 
         for (var j in app.activeCameras){
             var cam = app.activeCameras[j];
@@ -73,6 +73,17 @@ function createTable(activeCameras, activeSoftware){
 
         }
     }
+
+    // go back and adjust vertical position
+    var headerRowHeight = headRow.node().getBoundingClientRect().height;
+    headRow.selectAll("div").each(function(){
+        var bbox = d3.select(this).select("a").node().getBoundingClientRect();
+        console.log(bbox)
+        a = this
+        d3.select(this).select('a').style("margin-left", -bbox.height + 8)
+
+
+    })
 }
 
 // create a software select into #softwareSelectDiv
