@@ -58,9 +58,30 @@ function createTable(activeCameras, activeSoftware){
     for( var i in app.activeSoftware){
         var sw = app.activeSoftware[i];
         var tr = table.append("tr")
-        tr.append("td")
-            .text(sw)
-            .classed("softwareLabelTD", true)
+
+        var labelTd = tr.append("td")
+                        .text(sw)
+                        .classed("softwareLabelTD", true)
+
+        labelTd.on("mouseover", function(){
+            d3.select(this).classed("highLighted", true);
+            var toolTipDiv = d3.select("body").append("div").classed("toolTip", true).html(softwareInfo[d3.select(this).text()]['Description']);
+
+            var parentBBox = this.getBoundingClientRect();
+            console.log(parentBBox)
+            toolTipDiv.style("right", parentBBox.left + 40)
+                .style("top", parentBBox.bottom )
+
+        })
+            .on("mouseout", function(){
+                d3.select(this).classed("highLighted", false)
+                d3.selectAll(".toolTip").remove()
+
+            })
+            .on("click", function(){
+                window.open(softwareInfo[sw]['Link'])
+                console.log(softwareInfo[sw]['Link'])
+            })
 
         for (var j in app.activeCameras){
             var cam = app.activeCameras[j];
@@ -78,9 +99,9 @@ function createTable(activeCameras, activeSoftware){
     var headerRowHeight = headRow.node().getBoundingClientRect().height;
     headRow.selectAll("div").each(function(){
         var bbox = d3.select(this).select("a").node().getBoundingClientRect();
-        console.log(bbox)
         a = this
-        d3.select(this).select('a').style("margin-left", -bbox.height + 8)
+        d3.select(this).select('a').style("margin-left", -bbox.height + 8);
+        d3.select(this).select('a').style("margin-bottom", 12)
 
 
     })
@@ -184,8 +205,30 @@ createTable(app.activeCameras, app.activeSoftware);
 // add a callback to the "show all button"
 d3.select("#showAllButton")
     .on('click', function(){
-        d3.selectAll('.cameraModel').classed("active", true)
-        app.activeCameras = app.availableCameras;
-        //app.activeSoftware = app.availableSoftware;
-        createTable();
+
+        if(!app.showAll){
+            // 
+            app.lastCameras = app.activeCameras;
+            d3.selectAll(".cameraFamily").classed("hidden", false)
+            d3.selectAll(".cameraModel").classed("hidden", false)
+            d3.selectAll('.cameraModel').classed("active", true)
+            app.activeCameras = app.availableCameras;
+            //app.activeSoftware = app.availableSoftware;
+            createTable();
+            app.showAll = true;
+            d3.select(this).text("Hide All")
+            return
+        }
+
+        if(app.showAll){
+            d3.selectAll(".cameraFamily").classed("hidden", false)
+            d3.selectAll(".cameraModel").classed("hidden", false)
+            d3.selectAll('.cameraModel').classed("active", false)
+            app.activeCameras = [];
+            //app.activeSoftware = app.availableSoftware;
+            createTable();
+            app.showAll = false;
+            d3.select(this).text("Show All")
+            return
+        }
     })
