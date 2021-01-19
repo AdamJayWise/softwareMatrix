@@ -173,6 +173,7 @@ createTable(app.activeCameras, app.activeSoftware);
 // add a callback to the "show all button"
 d3.select("#showAllButton")
     .on('click', function(){
+        d3.selectAll('.cameraModel').classed("active", true)
         app.activeCameras = app.availableCameras;
         //app.activeSoftware = app.availableSoftware;
         createTable();
