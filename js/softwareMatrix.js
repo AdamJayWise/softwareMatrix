@@ -74,8 +74,9 @@ function createTable(activeCameras, activeSoftware){
                         .html(softwareInfo[d3.select(this).text()]['Description']);
 
             var parentBBox = this.getBoundingClientRect();
-            toolTipDiv.style("left", parentBBox.left + 20)
-                .style("top", parentBBox.bottom )
+            console.log(parentBBox)
+            toolTipDiv.style("left", parentBBox.left)
+                .style("top", parentBBox.y + parentBBox.height)
 
         })
             .on("mouseout", function(){
