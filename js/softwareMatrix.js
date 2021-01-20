@@ -65,11 +65,16 @@ function createTable(activeCameras, activeSoftware){
 
         labelTd.on("mouseover", function(){
             d3.select(this).classed("highLighted", true);
-            var toolTipDiv = d3.select("body").append("div").classed("toolTip", true).html(softwareInfo[d3.select(this).text()]['Description']);
+            
+            var toolTipDiv = d3.select("body")
+                                .append("div")
+                                .classed("toolTip", true)
+
+            toolTipDiv.append("div")
+                        .html(softwareInfo[d3.select(this).text()]['Description']);
 
             var parentBBox = this.getBoundingClientRect();
-            console.log(parentBBox)
-            toolTipDiv.style("right", parentBBox.left + 40)
+            toolTipDiv.style("left", parentBBox.left + 20)
                 .style("top", parentBBox.bottom )
 
         })
@@ -80,7 +85,6 @@ function createTable(activeCameras, activeSoftware){
             })
             .on("click", function(){
                 window.open(softwareInfo[sw]['Link'])
-                console.log(softwareInfo[sw]['Link'])
             })
 
         for (var j in app.activeCameras){
@@ -144,7 +148,6 @@ function createCameraTree(){
                             // make direct children visible
                             typeDiv.selectAll(".cameraFamily")
                                     .each(function(d,i,p){
-                                        console.log(p[i]);
                                         var t = d3.select(p[i]);
                                         t.classed("hidden", !t.classed("hidden"))
                                     })
@@ -161,7 +164,6 @@ function createCameraTree(){
                                 // make direct children visible
                                 famDiv.selectAll(".cameraModel")
                                     .each(function(d,i,p){
-                                        console.log(p[i]);
                                         var t = d3.select(p[i]);
                                         t.classed("hidden", !t.classed("hidden"))
                                 })
