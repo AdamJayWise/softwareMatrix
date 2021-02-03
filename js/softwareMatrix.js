@@ -85,6 +85,7 @@ function createTable(activeCameras, activeSoftware){
 
             })
             .on("click", function(){
+                console.log(sw)
                 window.open(softwareInfo[sw]['Link'])
             })
 
