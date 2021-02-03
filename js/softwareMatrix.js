@@ -14,6 +14,7 @@ function caseInsensAlphabetize(a,b){
 
 // application environmental variables
 var app = {
+    debug : false,
     activeCameras : [], // what cameras should be shown
     activeSoftware : [], // what software should be shown
     availableCameras : Object.keys(compatibilityChart).sort(caseInsensAlphabetize), // what camera models are available
@@ -60,8 +61,13 @@ function createTable(activeCameras, activeSoftware){
         var tr = table.append("tr")
 
         var labelTd = tr.append("td")
-                        .text(sw)
                         .classed("softwareLabelTD", true)
+        
+        var linkA = labelTd.append('a')
+                            .text(sw)
+                            .attr("href", softwareInfo[sw]["Link"])
+                            .classed("softwareLink", true)
+        
 
         labelTd.on("mouseover", function(){
             d3.select(this).classed("highLighted", true);
@@ -74,7 +80,9 @@ function createTable(activeCameras, activeSoftware){
                         .html(softwareInfo[d3.select(this).text()]['Description']);
 
             var parentBBox = this.getBoundingClientRect();
-            console.log(parentBBox)
+            if (app.debug){
+                console.log(parentBBox)
+            }
             toolTipDiv.style("left", parentBBox.left)
                 .style("top", parentBBox.y + parentBBox.height)
 
@@ -84,10 +92,12 @@ function createTable(activeCameras, activeSoftware){
                 d3.selectAll(".toolTip").remove()
 
             })
+            /** mmm this doesn't work the way I'd wanted it to... because the callback is accessing the last value of var sw
             .on("click", function(){
                 console.log(sw)
                 window.open(softwareInfo[sw]['Link'])
             })
+            */
 
         for (var j in app.activeCameras){
             var cam = app.activeCameras[j];
