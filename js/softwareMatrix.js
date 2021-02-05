@@ -190,6 +190,7 @@ function createCameraTree(){
                     .text(camModel)
                     .on('click', function(){
                         if(app.activeCameras.indexOf(camModel) == -1){
+                            console.log(camModel)
                             app.activeCameras.push(camModel);
                             d3.select(this).classed("active", true)
                         }
